@@ -8,6 +8,8 @@ import pandas as pd
 import matplotlib.pyplot as plt
 from PIL import Image
 
+from sklearn.ensemble import RandomForestRegressor
+
 SLIDER_MIN = 1
 SLIDER_MAX = 3
 SLIDER_DEFAULT = 2  
@@ -15,8 +17,10 @@ PARAMETERS = [
     "diffuse_radiation",                 
     "terrestrial_radiation",         
     "cloud_cover",                   
-    "relative_humidity_2m",          
-    "temperature_2m",                
+    "relative_humidity_2m",
+    "temperature_2m",     
+    "surface_pressure",
+    "wind_speed_10m"           
 ]
 
 class SolarApp(ctki.CTk):
@@ -86,6 +90,7 @@ class SolarApp(ctki.CTk):
     def _download_results(self, result_file, predicts):
         self.result_fd = ctki.filedialog.askdirectory(title="Укажите путь к целевой папке")
         result_file["production"] = predicts
+        result_file['date'] = result_file['date'].dt.tz_localize(None)
         result_file.to_excel(f"{self.result_fd}/result.xlsx")
         
     def _slider_callback(self, value):
@@ -117,8 +122,12 @@ class SolarApp(ctki.CTk):
         model_and_predicts = model_teacher.train_model()
         
         model = model_and_predicts[0]
+
         predicts = model_and_predicts[1]
         fact = model_and_predicts[2]
+    
+        predicts = model.predict(meteo_and_prod.drop(['date', 'production'], axis=1))
+        fact = meteo_and_prod['production']
         model_teacher.plot_predictions_vs_true(predicts, fact)
         metrics_image = ctki.CTkImage(light_image=Image.open("src/content/model_metrics.png"), size=(800, 600))
         metrics_image_label = ctki.CTkLabel(self.output_frame, image=metrics_image, text="")
@@ -129,10 +138,11 @@ class SolarApp(ctki.CTk):
                                         text="Получить результат прогнозирования", height=40, font=("Georgia", 13, "bold"),
                                         fg_color="#28a745", hover_color="#218838",
                                         command=lambda:self._download_results(result_file, predicts), width=10)
+        print(forec_data.head())
         download_button.pack(pady=10)
 
 if __name__ == "__main__":
     app = SolarApp()
     app.mainloop()
     
-    
+

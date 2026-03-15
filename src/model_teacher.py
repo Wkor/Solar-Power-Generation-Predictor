@@ -1,13 +1,14 @@
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import mean_absolute_error, mean_squared_error, r2_score
 from sklearn.ensemble import RandomForestRegressor 
-from sklearn.experimental import enable_halving_search_cv
+from sklearn.model_selection import GridSearchCV
 from sklearn.model_selection import TimeSeriesSplit
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 import tkinter as tk
+import pickle 
 
 class ModelTeacher:
     def __init__(self, data, TARGET_VARIABLES, N_ESTIMATORS, MAX_DEPTH, SEED, RANDOM_STATE):
@@ -23,8 +24,8 @@ class ModelTeacher:
 
     def plot_predictions_vs_true(
         self,
-        y_pred: pd.Series, 
-        y: pd.Series
+        y_pred, 
+        y
     ):
     
         fig, ax = plt.subplots(figsize=(8, 6))
@@ -41,36 +42,34 @@ class ModelTeacher:
         return fig
 
     def train_model(self):
-        print(self.data.head())
-        x_train, x_test, y_train, y_test = train_test_split(self.data.drop(columns=['production', 'valid_time']),
-                                                    self.data['production'], 
+        y = self.data['production']
+        x = self.data.drop(columns=['production', 'date'])
+        x_train, x_test, y_train, y_test = train_test_split(x,
+                                                    y, 
                                                     test_size=0.2)
 
         param_grid = { 
-            'max_depth': [5, 10, 15, None], 
-            'min_samples_split': [2, 5, 10], 
-            'min_samples_leaf': [1, 2, 4],
-            'max_features': [1.0, 'sqrt', 'log2'],
-            'ccp_alpha': [0.0, 0.001, 0.01],
-            'criterion': ['squared_error', 'absolute_error', 'friedman_mse']
+        'max_depth': [5, 10, 15, None], 
+        'min_samples_split': [2, 5, 10], 
+        'min_samples_leaf': [1, 2, 4],
+        'max_features': [1.0, 'sqrt', 'log2'],
+        'ccp_alpha': [0.0, 0.001, 0.01],
+        'criterion': ['squared_error', 'absolute_error', 'friedman_mse']
         }
         
         tscv = TimeSeriesSplit(n_splits=10)
         
-        model = enable_halving_search_cv.HalvingGridSearchCV(
+        model = GridSearchCV(
             RandomForestRegressor(random_state=self.RANDOM_STATE),
             param_grid,
-            factor=3,               
-            resource='n_samples',  
-            max_resources='auto',   
             cv=tscv,
             scoring='neg_root_mean_squared_error',
-            n_jobs=-1,
-            random_state=self.RANDOM_STATE
+            n_jobs=-1
         )
         
         model.fit(x_train, y_train)
-
+        with open('my_model.pkl', 'wb') as f:
+            pickle.dump(model, f)
         return (model, model.predict(x_test), y_test)
 
     

@@ -48,3 +48,8 @@ class HistoricalDataLoader:
             time.sleep(0.5)
     
         return pd.concat(all_data, ignore_index=True)
+        result = pd.read_csv('notebook/historical_weather.csv',index_col=False)
+        print(result.head())
+        result.drop(columns=['direct_normal_irradiance', 'direct_radiation', 'global_tilted_irradiance', 'shortwave_radiation', 'Unnamed: 0', 'surface_pressure', 'wind_speed_10m'],inplace=True)
+        result['date'] = pd.to_datetime(result['date'])
+        return result

@@ -45,7 +45,7 @@ class HistoricalDataLoader:
                 all_data.append(chunk_df)
         
             current = chunk_end + dt.timedelta(days=1)
-            time.sleep(0.5)
+            time.sleep(1)
     
         return pd.concat(all_data, ignore_index=True)
         result = pd.read_csv('notebook/historical_weather.csv',index_col=False)

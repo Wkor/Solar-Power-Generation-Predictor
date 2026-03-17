@@ -34,7 +34,7 @@ class ModelTeacher:
         ax.set_title(f"MAE: {mean_absolute_error(y_pred, y):.2f}, R2: {r2_score(y_pred, y):.2f}, WAPE: {self.wape(y_pred, y):.2f}")
         ax.set_xlabel("Предсказание")
         ax.set_ylabel("Выработка")
-        ax.plot([0, len(y)], [0, len(y_pred)], c='r', linestyle='--')
+        ax.plot([0, max(y)], [0, max(y_pred)], c='r', linestyle='--')
 
         fig.savefig("src/content/model_metrics.png")
 
@@ -46,7 +46,7 @@ class ModelTeacher:
         x = self.data.drop(columns=['production', 'date'])
         x_train, x_test, y_train, y_test = train_test_split(x,
                                                     y, 
-                                                    test_size=0.2)
+                                                    test_size=0.2, random_state=42)
 
         param_grid = { 
         'max_depth': [5, 10, 15, None], 
@@ -83,3 +83,4 @@ class ModelTeacher:
         result_df['production'] = predictions
         
         return result_df
+

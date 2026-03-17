@@ -56,12 +56,34 @@ class DataProcessor:
         upper_bound = q3 + 1.5 * iqr
 
         dataframe.loc[(dataframe[subset_column] < lower_bound) | (dataframe[subset_column] > upper_bound), subset_column] = np.nan
+        
+    def process_forecasted_data(self):
+        self.forecasted_weather['date'] = pd.to_datetime(self.forecasted_weather['date']).dt.normalize()
+
+        sum_cols = ['diffuse_radiation', 'terrestrial_radiation', 'shortwave_radiation', 'direct_radiation']
+        
+        agg_dict = {}
+        for col in self.forecasted_weather.columns:
+            if col in ['date', 'id_station']:
+                continue
+            
+            if col in sum_cols:
+                agg_dict[col] = 'sum'
+            else:
+                if pd.api.types.is_numeric_dtype(self.forecasted_weather[col]):
+                    agg_dict[col] = 'mean'
+
+        daily_historical = self.forecasted_weather.groupby(['date', 'id_station']).agg(agg_dict).reset_index()
+        
+        return daily_historical
 
 
+    
     def process_data(self):    
         self.production_data['production'] = pd.to_numeric(self.production_data['production'], errors='coerce')
         self.historical_weather["date"] = pd.to_datetime(self.historical_weather['date']).dt.date
         self.production_data["date"] = pd.to_datetime(self.production_data["date"]).dt.date
+        self.forecasted_weather["date"] = pd.to_datetime(self.forecasted_weather['date'], errors='coerce').dt.date
         
         self.forecasted_weather['id_station'] = self.ID_STATION
         meteo_and_prod = self.merged_meteo_and_prod()
@@ -69,6 +91,7 @@ class DataProcessor:
         self.delete_anomalies(meteo_and_prod, 'production')
         meteo_and_prod.dropna(inplace=True)
         meteo_and_prod.drop_duplicates(subset=['date','id_station'], keep='first', inplace=True)
+        self.forecasted_weather = self.process_forecasted_data()
         print(meteo_and_prod.columns)
 
         return meteo_and_prod, self.forecasted_weather

@@ -7,7 +7,7 @@ import datetime as dt
 import pandas as pd
 import matplotlib.pyplot as plt
 from PIL import Image
-
+from sklearn.model_selection import train_test_split
 from sklearn.ensemble import RandomForestRegressor
 
 SLIDER_MIN = 1
@@ -90,6 +90,8 @@ class SolarApp(ctki.CTk):
     def _download_results(self, result_file, predicts):
         self.result_fd = ctki.filedialog.askdirectory(title="Укажите путь к целевой папке")
         result_file["production"] = predicts
+        result_file['date'] = pd.to_datetime(result_file['date'])
+
         result_file['date'] = result_file['date'].dt.tz_localize(None)
         result_file.to_excel(f"{self.result_fd}/result.xlsx")
         
@@ -102,7 +104,7 @@ class SolarApp(ctki.CTk):
     def start_program(self):
         lat = self.lat_entry.get()
         lon = self.lon_entry.get()
-        
+
         production = pd.read_excel(self.production_fp)
         start_date = production["date"][0]
         end_date = production["date"][len(production["date"]) - 1]
@@ -114,32 +116,40 @@ class SolarApp(ctki.CTk):
     
         forec_dl = ForecastedDataLoader(PARAMETERS, str(end_date)[0:10], str(end_date + dt.timedelta(days=self.slider.get() - 1))[0:10], self.lat_entry.get(), lon)
         forec_data = forec_dl.load_data()
-
+        
         processor = DataProcessor(production, hist_data, forec_data, PARAMETERS, self.slider.get(), self.id_station)
         meteo_and_prod, forec_data = processor.process_data()
         print(meteo_and_prod.head())
         model_teacher = ModelTeacher(meteo_and_prod, ["production"], 50, 20, 24, 42)
         model_and_predicts = model_teacher.train_model()
-        
         model = model_and_predicts[0]
-
+        
+        y = meteo_and_prod["production"]
+        x = meteo_and_prod.drop(columns=['date', 'production'], axis=1)
+        x_train, x_test, y_train, y_test = train_test_split(x,
+                                                    y, 
+                                                    test_size=0.2, random_state=42)
+        
+        predicts = model.predict(x_test[model.feature_names_in_])
+        
+        fact = y_test
         predicts = model_and_predicts[1]
         fact = model_and_predicts[2]
-    
-        predicts = model.predict(meteo_and_prod.drop(['date', 'production'], axis=1))
-        fact = meteo_and_prod['production']
         model_teacher.plot_predictions_vs_true(predicts, fact)
         metrics_image = ctki.CTkImage(light_image=Image.open("src/content/model_metrics.png"), size=(800, 600))
         metrics_image_label = ctki.CTkLabel(self.output_frame, image=metrics_image, text="")
         metrics_image_label.pack(pady=10)
         predicts = model.predict(forec_data[model.feature_names_in_])
+        model_teacher.plot_predictions_vs_true(predicts, predicts)
         result_file = forec_data.copy() 
         download_button = ctki.CTkButton(self.output_frame, border_color="#C4C4C4", border_width=2, 
                                         text="Получить результат прогнозирования", height=40, font=("Georgia", 13, "bold"),
                                         fg_color="#28a745", hover_color="#218838",
                                         command=lambda:self._download_results(result_file, predicts), width=10)
+        
         print(forec_data.head())
         download_button.pack(pady=10)
+
 
 if __name__ == "__main__":
     app = SolarApp()

@@ -62,7 +62,7 @@ The Solar Power Generation Predictor is a desktop application designed to help s
 
 ## 💻 Installation
 
-### Option 1: Run from Source
+Run from Source
 
 ```bash
 # Clone the repository

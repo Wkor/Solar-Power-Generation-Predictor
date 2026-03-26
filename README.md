@@ -1,44 +1,76 @@
-# Solar-Power-Generation-Predictor
+# ☀️ Solar Power Generation Predictor
 
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/Wkor)
 
-![Иллюстрация к проекту](https://amplussolar.com/blog/wp-content/uploads/2024/05/blog-topheader.webp)
+![Solar Power Generation Predictor Banner](https://amplussolar.com/blog/wp-content/uploads/2024/05/blog-topheader.webp)
 
-It is a desktop app for predict solar power plants generation.
+> A powerful desktop application that predicts solar power plant generation using machine learning and historical weather data.
 
-**How it works?**
-- The user enters the longitude and latitude of the solar power plant, as well as the number of days for forecasting (1–3).
-- The user uploads a historical generation file in Excel format (.xlsx) with the following columns: date (yyyy-mm-dd), id (solar module array identifier), and production (in kWh).
-- The program retrieves historical weather data for the corresponding period from the Open-Meteo API.
-- The program processes the data by removing NaNs (in historial generation file), duplicates, and anomalies.
-- The program runs a hyperparameter tuning process to select the best model (model - Random Forest, hyperparameter search algorithm - GridSearchCV)
-- The program shows results of model performance on test data (20% of historical data)
-- Program provides forecasting results (in tablet view)
+## 📋 Table of Contents
+- [Overview](#-overview)
+- [Features](#-features)
+- [How It Works](#-how-it-works)
+- [Installation](#-installation)
+- [Usage](#-usage)
+- [Input Format](#-input-format)
+- [Technical Details](#-technical-details)
+- [Output](#-output)
+- [Requirements](#-requirements)
+- [License](#-license)
+- [Contributing](#-contributing)
 
-**How to use it?**
-- Run app.py or download installer, install .exe-file (in develop) and run it.
-- Enter longitude, latitude of solar power-plant, days for forecasting (1 - 3).
-- Enter historical generation xlsx-table in next format: date(yyyy-mm-dd), id (of solar modules array), production (in kW*h) of your plant or test data (production.xlsx).
-- Wait result :).
+## 🎯 Overview
 
+The Solar Power Generation Predictor is a desktop application designed to help solar power plant operators forecast energy production. By combining historical generation data with weather information, the app uses machine learning to provide accurate predictions for the next 1-3 days.
 
+## ✨ Features
 
+- **📍 Location-Based Forecasting**: Input any coordinates to get localized weather data
+- **📊 Smart Data Processing**: Automatic cleaning of historical data (removes NaNs, duplicates, and anomalies)
+- **🤖 Machine Learning**: Utilizes Random Forest algorithm with hyperparameter tuning via GridSearchCV
+- **📈 Model Evaluation**: Visualizes model performance on test data (20% of historical data)
+- **📱 User-Friendly Interface**: Simple GUI for easy interaction
+- **📤 Exportable Results**: View forecasts in a clean table format
 
+## 🔧 How It Works
 
+1. **Input Parameters**: User provides:
+   - Geographic coordinates (longitude, latitude)
+   - Forecast horizon (1-3 days)
+   - Historical generation data (Excel file)
 
+2. **Data Collection**:
+   - Fetches historical weather data from Open-Meteo API
+   - Matches weather data with generation periods
 
+3. **Data Processing**:
+   - Cleans historical generation data
+   - Removes anomalies and missing values
+   - Merges weather and generation datasets
 
+4. **Model Training**:
+   - Splits data (80% training, 20% testing)
+   - Performs hyperparameter tuning using GridSearchCV
+   - Trains Random Forest model on optimal parameters
 
+5. **Results**:
+   - Shows model performance metrics
+   - Generates forecasts for specified period
+   - Presents results in an easy-to-read table
 
+## 💻 Installation
 
+### Option 1: Run from Source
 
+```bash
+# Clone the repository
+git clone https://github.com/yourusername/Solar-Power-Generation-Predictor.git
+cd Solar-Power-Generation-Predictor
 
+# Install required packages
+pip install -r requirements.txt
 
-
-
-
-
-
-
-
-
-
+# Run the application
+python app.py

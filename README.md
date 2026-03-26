@@ -6,16 +6,39 @@
 It is a desktop app for predict solar power plants generation.
 
 **How it works?**
-- user enter longitude, latitude of solar power-plant, days for forecasting (1 - 3)
-- user enter historical generation xlsx-tablet in next format: date(yyyy-mm-dd), id (of solar modules array), production (in kW*h)
-- program gets historical meteo-data of historical production period on Open-Meteo API-services
-- program process all data (delete NaNs, dublicates and anomalies)
-- program starts learn AI-model (Gradient Boosting Regressor) using historical meteo-data and historical production-data
-- program view results of work model on test-data (20% of historical data)
-- program gives results of forecasting (in tablet view)
+- The user enters the longitude and latitude of the solar power plant, as well as the number of days for forecasting (1–3).
+- The user uploads a historical generation file in Excel format (.xlsx) with the following columns: date (yyyy-mm-dd), id (solar module array identifier), and production (in kWh).
+- The program retrieves historical weather data for the corresponding period from the Open-Meteo API.
+- The program processes the data by removing NaNs (in historial generation file), duplicates, and anomalies.
+- The program runs a hyperparameter tuning process to select the best model (model - Random Forest, hyperparameter search algorithm - GridSearchCV)
+- The program shows results of model performance on test data (20% of historical data)
+- Program provides forecasting results (in tablet view)
 
 **How to use it?**
-- run app.py or download installer, install .exe-file (in develop) and run it 
-- enter longitude, latitude of solar power-plant, days for forecasting (1 - 3)
-- enter historical generation xlsx-tablet in next format: date(yyyy-mm-dd), id (of solar modules array), production (in kW*h) of your plant or test data (production.xlsx)
-- wait result :)
+- Run app.py or download installer, install .exe-file (in develop) and run it.
+- Enter longitude, latitude of solar power-plant, days for forecasting (1 - 3).
+- Enter historical generation xlsx-table in next format: date(yyyy-mm-dd), id (of solar modules array), production (in kW*h) of your plant or test data (production.xlsx).
+- Wait result :).
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

@@ -46,12 +46,11 @@ The Solar Power Generation Predictor is a desktop application designed to help s
    - Matches weather data with generation periods
 
 3. **Data Processing**:
-   - Cleans historical generation data
-   - Removes anomalies and missing values
    - Merges weather and generation datasets
+   - Splits data (80% training, 20% testing)
+   - Removes anomalies and missing values
 
 4. **Model Training**:
-   - Splits data (80% training, 20% testing)
    - Performs hyperparameter tuning using GridSearchCV
    - Trains Random Forest model on optimal parameters
 

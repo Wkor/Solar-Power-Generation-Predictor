@@ -8,22 +8,9 @@
 
 > A powerful desktop application that predicts solar power plant generation using machine learning and historical weather data.
 
-## Table of Contents
-- [Overview](#-overview)
-- [Features](#-features)
-- [How It Works](#-how-it-works)
-- [Installation](#-installation)
-- [Usage](#-usage)
-- [Input Format](#-input-format)
-- [Technical Details](#-technical-details)
-- [Output](#-output)
-- [Requirements](#-requirements)
-- [License](#-license)
-- [Contributing](#-contributing)
-
 ## Overview
 
-The Solar Power Generation Predictor is a desktop application designed to help solar power plant operators forecast energy production. By combining historical generation data with weather information, the app uses machine learning to provide accurate predictions for the next 1-3 days.
+Solar Power Generation Predictor can be used by operators of solar power plants to predict the amount of energy that will be produced by their facility. The application takes historical generation data into account along with weather data. Using machine learning, the predictor provides accurate predictions for the next day, two days, or three days.
 
 ## Features
 

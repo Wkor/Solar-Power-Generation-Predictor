@@ -8,7 +8,7 @@
 
 > A powerful desktop application that predicts solar power plant generation using machine learning and historical weather data.
 
-## 📋 Table of Contents
+## Table of Contents
 - [Overview](#-overview)
 - [Features](#-features)
 - [How It Works](#-how-it-works)
@@ -21,20 +21,20 @@
 - [License](#-license)
 - [Contributing](#-contributing)
 
-## 🎯 Overview
+## Overview
 
 The Solar Power Generation Predictor is a desktop application designed to help solar power plant operators forecast energy production. By combining historical generation data with weather information, the app uses machine learning to provide accurate predictions for the next 1-3 days.
 
-## ✨ Features
+## Features
 
-- **📍 Location-Based Forecasting**: Input any coordinates to get localized weather data
-- **📊 Smart Data Processing**: Automatic cleaning of historical data (removes NaNs, duplicates, and anomalies)
-- **🤖 Machine Learning**: Utilizes Random Forest algorithm with hyperparameter tuning via GridSearchCV
-- **📈 Model Evaluation**: Visualizes model performance on test data (20% of historical data)
-- **📱 User-Friendly Interface**: Simple GUI for easy interaction
-- **📤 Exportable Results**: View forecasts in a clean table format
+- ** Location-Based Forecasting**: Input any coordinates to get localized weather data
+- ** Smart Data Processing**: Automatic cleaning of historical data (removes NaNs, duplicates, and anomalies)
+- ** Machine Learning**: Utilizes Random Forest algorithm with hyperparameter tuning via GridSearchCV
+- ** Model Evaluation**: Visualizes model performance on test data (20% of historical data)
+- ** User-Friendly Interface**: Simple GUI for easy interaction
+- ** Exportable Results**: View forecasts in a clean table format
 
-## 🔧 How It Works
+## How It Works
 
 1. **Input Parameters**: User provides:
    - Geographic coordinates (longitude, latitude)
@@ -59,7 +59,7 @@ The Solar Power Generation Predictor is a desktop application designed to help s
    - Generates forecasts for specified period
    - Presents results in an easy-to-read table
 
-## 💻 Installation
+## Installation
 
 Run from Source
 

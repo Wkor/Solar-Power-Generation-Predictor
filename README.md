@@ -1,6 +1,6 @@
 # ☀️ Solar Power Generation Predictor
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![License: GPLv3](https://img.shields.io/badge/License-GPLv3-yellow.svg)](https://opensource.org/licenses/GPLv3)
 [![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
 [![Made with Love](https://img.shields.io/badge/Made%20with-❤️-red.svg)](https://github.com/Wkor)
 

@@ -27,12 +27,12 @@ The Solar Power Generation Predictor is a desktop application designed to help s
 
 ## Features
 
-- ** Location-Based Forecasting**: Input any coordinates to get localized weather data
-- ** Smart Data Processing**: Automatic cleaning of historical data (removes NaNs, duplicates, and anomalies)
-- ** Machine Learning**: Utilizes Random Forest algorithm with hyperparameter tuning via GridSearchCV
-- ** Model Evaluation**: Visualizes model performance on test data (20% of historical data)
-- ** User-Friendly Interface**: Simple GUI for easy interaction
-- ** Exportable Results**: View forecasts in a clean table format
+- **Location-Based Forecasting**: Input any coordinates to get localized weather data
+- **Smart Data Processing**: Automatic cleaning of historical data (removes NaNs, duplicates, and anomalies)
+- **Machine Learning**: Utilizes Random Forest algorithm with hyperparameter tuning via GridSearchCV
+- **Model Evaluation**: Visualizes model performance on test data (20% of historical data)
+- **User-Friendly Interface**: Simple GUI for easy interaction
+- **Exportable Results**: View forecasts in a clean table format
 
 ## How It Works
 
